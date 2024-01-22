@@ -13,7 +13,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form method="POST">
+                    <form method="POST" action ="/insert_book_info">
                         <div class="form-group">
                             <label for="book_name" style="font-weight: bold;">Name</label>
                             <input type="text" class="form-control" id="book_name" name="book_name"
@@ -22,16 +22,16 @@
 
                         <div class="form-group" style="font-weight: bold;">
                             <label for="book_author">Author</label>
-                            <input type="text" class="form-control" id="book_author" placeholder="Book Author">
+                            <input type="text" class="form-control" id="book_author" name ="book_author" placeholder="Book Author">
                         </div>
 
                         <div>
                             <label for="book_genre" style="font-weight: bold;">Genre</label>
-                            <input type="text" class="form-control" id="book_genre" placeholder="Book Genre">
+                            <input type="text" class="form-control" id="book_genre" name ="book_genre" placeholder="Book Genre">
                         </div>
 
                         <button type="submit" class="btn btn-primary"
-                            style="margin-left: 196px; margin-top: 173px; padding: 10px 20px; font-size: 18px;">CREATE</button>
+                            style="margin-left: 210px; margin-top: 173px; padding: 10px 20px; font-size: 18px;">CREATE</button>
                     </form>
                 </div>
             </div>
@@ -49,7 +49,7 @@
 
                 <div class="card-body">
 
-                    <form>
+                    <form method="POST" action="/insert_user_info">
                         <div class="form-group">
                             <label for="user_name" style="font-weight: bold; color: #333333;">Name</label>
                             <input type="text" class="form-control" id="user_name" name="user_name"
@@ -58,29 +58,29 @@
 
                         <div>
                             <label for="user_ssn" style="font-weight: bold; color: #333333;">Person Number</label>
-                            <input type="number" class="form-control" id="user_ssn" placeholder="User Person Number">
+                            <input type="number" class="form-control" id="user_ssn" name ="user_ssn" placeholder="User Person Number">
                         </div>
 
 
                         <div class="form-group" style="font-weight: bold; color: #333333;">
                             <label for="user_email">Email</label>
-                            <input type="email" class="form-control" id="user_email" placeholder="User Email">
+                            <input type="email" class="form-control" id="user_email" name ="user_email" placeholder="User Email">
                         </div>
 
 
                         <div>
-                            <label for="user_phone" style="font-weight: bold; color: #333333;">Phone Number</label>
-                            <input type="number" class="form-control" id="user_phone" placeholder="User Phone Number">
+                            <label for="user_phone_number" style="font-weight: bold; color: #333333;">Phone Number</label>
+                            <input type="number" class="form-control" id="user_phone_number" name ="user_phone_number" placeholder="User Phone Number">
                         </div>
 
 
                         <div>
                             <label for="user_address" style="font-weight: bold; color: #333333;">Address</label>
-                            <input type="text" class="form-control" id="user_address" placeholder="User Address">
+                            <input type="text" class="form-control" id="user_address" name ="user_address" placeholder="User Address">
                         </div>
 
                     <button type="submit" class="btn btn-primary"
-                        style="margin-left: 196px; margin-top: 50px; padding: 10px 20px; font-size: 18px;">CREATE</button>
+                        style="margin-left: 210px; margin-top: 50px; padding: 10px 20px; font-size: 18px;">CREATE</button>
                     </form>
                 </div>
             </div>
@@ -134,7 +134,7 @@
                                 placeholder="Person Number">
                         </div>
                         <button type="submit" class="btn btn-success btn-block"
-                            style="padding: 10px 20px; font-size: 18px; margin-top: 86px; margin-left: 196px;">GET INFO</button>
+                            style="padding: 10px 20px; font-size: 18px; margin-top: 86px; margin-left: 210px;">GET INFO</button>
                     </form>
     
                 </div>
@@ -162,7 +162,7 @@
                             <input type="text" class="form-control" id="user_update" name="user_update" placeholder="Person Number">
                         </div>
                         <button type="submit" class="btn btn-warning btn-block"
-                            style="padding: 10px 20px; font-size: 18px; margin-top: 16px; margin-left: 196px;">UPDATE</button>
+                            style="padding: 10px 20px; font-size: 18px; margin-top: 16px; margin-left: 210px;">UPDATE</button>
                     </form>
                 </div>
             </div>
@@ -182,18 +182,18 @@
                             <input type="text" class="form-control" id="book_update" name="book_update" placeholder="Book ID">
                         </div>
                         <button type="submit" class="btn btn-warning btn-block"
-                            style="padding: 10px 20px; font-size: 18px; margin-top: 16px; margin-left: 196px;">UPDATE</button>
+                            style="padding: 10px 20px; font-size: 18px; margin-top: 16px; margin-left: 210px;">UPDATE</button>
                     </form>
                 </div>
             </div>
         </div>
 
-    </div>
+
 
    
      
     <!-- delete books and users-->
-    <div class = "row" style="margin-top: 100px; margin-bottom: 200px;" >
+    <div class = "row" style="margin-top: 100px;" >
 
         <div class = "col-md-6">
             <div class="card">
@@ -207,7 +207,7 @@
                             <input type="text" class="form-control" id="user_delete" name="user_delete" placeholder="Person Number">
                         </div>
                         <button type="submit" class="btn btn-danger btn-block"
-                            style="padding: 10px 20px; font-size: 18px; margin-top: 16px; margin-left: 196px;">DELETE</button>
+                            style="padding: 10px 20px; font-size: 18px; margin-top: 16px; margin-left: 210px;">DELETE</button>
                     </form>
                 </div>
             </div>
@@ -226,15 +226,45 @@
                             <input type="text" class="form-control" id="book_delete" name="book_delete" placeholder="Book ID">
                         </div>
                         <button type="submit" class="btn btn-danger btn-block"
-                            style="padding: 10px 20px; font-size: 18px; margin-top: 16px; margin-left: 196px;">DELETE</button>
+                            style="padding: 10px 20px; font-size: 18px; margin-top: 16px; margin-left: 210px;">DELETE</button>
                     </form>
                 </div>
             </div>
+        </div> 
+    </div>
+
+
+
+    <!-- Return Loan-->
+    <div class="col-md-12" style="margin-top: 100px;  margin-bottom: 200px;">
+        <div class="card">
+            <div class="card-header">
+                <h3 style="font-weight: bold;">Return Loan</h3>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <label for="loaned_book_id" style="font-weight: bold; color: #333333;">Book ID </label>
+                        <input type="text" class="form-control" id="loaned_book_id" name="loaned_book_id"
+                            placeholder="Book ID">
+                    </div>
+                    <div>
+                        <label for="loaned_person_num" style="font-weight: bold; color: #333333;">Person Number </label>
+                        <input type="text" class="form-control" id="loaned_person_num" name="loaned_person_num"
+                            placeholder="Person Number">
+                    </div>
+                    <div>
+                        <label for="loaned_return_date" style="font-weight: bold; color: #333333;">Return Date </label>
+                        <input type="date" class="form-control" id="loaned_return_date" name="loaned_return_date"
+                            placeholder="Return Date">
+                    </div>
+                    <button type="submit" class="btn btn-warning btn-block"
+                        style="padding: 10px 20px; font-size: 18px; margin-top: 16px; margin-left: 560px;">UPDATE</button>
+                </form>
+            </div>
         </div>
-    
     </div>
  
-
 </div>
 
 {% endblock %}
