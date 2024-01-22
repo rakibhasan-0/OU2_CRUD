@@ -6,14 +6,13 @@
     <div class="row" style="margin-bottom: 60px;">
         <div class="col-md-6">
             <!--The book input-->
-            <div class="card"
-                style="border: solid 2px black; padding: 0 10px 10px 10px; margin-top: 10px; background-color:#F5F5DC ;">
+            <div class="card">
 
                 <div class="card-header">
                     <h3 style="font-weight: 10px; border: bold 2px black;">Create Book</h3>
                 </div>
 
-                <div class="card-body" style="background-color: #F5F5DC;">
+                <div class="card-body">
                     <form method="POST">
                         <div class="form-group">
                             <label for="book_name" style="font-weight: bold;">Name</label>
@@ -42,14 +41,13 @@
 
         <!--The user input-->
         <div class="col-md-6">
-            <div class="card"
-                style="border: solid 2px black; padding: 0 10px 10px 10px; margin-top: 10px; background-color: #F5F5DC">
+            <div class="card">
 
                 <div class="card-header">
                     <h3 style="font-weight: 10px; border: bold 2px black;">Create User</h3>
                 </div>
 
-                <div class="card-body" style="background-color: #F5F5DC">
+                <div class="card-body">
 
                     <form>
                         <div class="form-group">
@@ -94,16 +92,14 @@
 
 
     <!-- This will ask for the user to create a loan-->
-
     <div class="row" style="margin-top: 100px;">
     
         <div class="col-md-6">
-            <div class="card"
-                style="border: solid 2px black; padding: 0 10px 10px 10px; margin-top: 10px;  background-color: #F5F5DC";>
+            <div class="card">
                 <div class="card-header">
                     <h3 style="font-weight: bold;">Make Loan</h3>
                 </div>
-                <div class="card-body" style="background-color: #F5F5DC;">
+                <div class="card-body">
                     <form>
                         <div class="form-group">
                             <label for="book_id" style="font-weight: bold; color: #333333;">Book ID</label>
@@ -124,13 +120,12 @@
         </div>
     
         <div class="col-md-6">
-            <div class="card"
-                style="border: solid 2px black; padding: 0 10px 10px 10px; margin-top: 10px; background-color:#F5F5DC;">
+            <div class="card">
                 <div class="card-header">
                     <h3 style="font-weight: bold;">User Info</h3>
                 </div>
     
-                <div class="card-body" style="background-color: #F5F5DC;">
+                <div class="card-body">
                     <form>
                         <div class="form-group">
                             <label for="user_info_person_num" style="font-weight: bold; color: #333333;">Person
@@ -152,10 +147,92 @@
 
  
 
+    <!-- Update the User Info-->
+    <div class = "row" style="margin-top: 100px;">
+
+        <div class = "col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 style="font-weight: bold;">Update User Info</h3>
+                </div>
+                <div class = "card-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="user_update" style="font-weight: bold; color: #333333;">Person Number </label>
+                            <input type="text" class="form-control" id="user_update" name="user_update" placeholder="Person Number">
+                        </div>
+                        <button type="submit" class="btn btn-warning btn-block"
+                            style="padding: 10px 20px; font-size: 18px; margin-top: 16px; margin-left: 196px;">UPDATE</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- update the book info-->
+        <div class = "col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 style="font-weight: bold;">Update Book Info</h3>
+                </div>
+                <div class = "card-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="book_update" style="font-weight: bold; color: #333333;">Book ID </label>
+                            <input type="text" class="form-control" id="book_update" name="book_update" placeholder="Book ID">
+                        </div>
+                        <button type="submit" class="btn btn-warning btn-block"
+                            style="padding: 10px 20px; font-size: 18px; margin-top: 16px; margin-left: 196px;">UPDATE</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
    
      
+    <!-- delete books and users-->
+    <div class = "row" style="margin-top: 100px; margin-bottom: 200px;" >
 
+        <div class = "col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 style="font-weight: bold;">Delete User</h3>
+                </div>
+                <div class = "card-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="user_delete" style="font-weight: bold; color: #333333;">Person Number </label>
+                            <input type="text" class="form-control" id="user_delete" name="user_delete" placeholder="Person Number">
+                        </div>
+                        <button type="submit" class="btn btn-danger btn-block"
+                            style="padding: 10px 20px; font-size: 18px; margin-top: 16px; margin-left: 196px;">DELETE</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class = "col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 style="font-weight: bold;">Delete Book</h3>
+                </div>
+                <div class = "card-body"">
+                    <form>
+                        <div class="form-group">
+                            <label for="book_delete" style="font-weight: bold; color: #333333;">Book ID </label>
+                            <input type="text" class="form-control" id="book_delete" name="book_delete" placeholder="Book ID">
+                        </div>
+                        <button type="submit" class="btn btn-danger btn-block"
+                            style="padding: 10px 20px; font-size: 18px; margin-top: 16px; margin-left: 196px;">DELETE</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+    </div>
  
 
 </div>
