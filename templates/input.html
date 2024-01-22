@@ -6,8 +6,12 @@
     <div class="row" style="margin-bottom: 60px;">
         <div class="col-md-6">
             <!--The book input-->
-            <div class="card-0"
+            <div class="card"
                 style="border: solid 2px black; padding: 0 10px 10px 10px; margin-top: 10px; background-color:#F5F5DC ;">
+
+                <div class="card-header">
+                    <h3 style="font-weight: 10px; border: bold 2px black;">Create Book</h3>
+                </div>
 
                 <div class="card-body" style="background-color: #F5F5DC;">
                     <form method="POST">
@@ -28,18 +32,22 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary"
-                            style="margin-left: 221px; margin-top: 173px; padding: 10px 20px; font-size: 18px;">CREATE</button>
+                            style="margin-left: 196px; margin-top: 173px; padding: 10px 20px; font-size: 18px;">CREATE</button>
                     </form>
                 </div>
             </div>
-
-
         </div>
+
+
 
         <!--The user input-->
         <div class="col-md-6">
-            <div class="card-0"
+            <div class="card"
                 style="border: solid 2px black; padding: 0 10px 10px 10px; margin-top: 10px; background-color: #F5F5DC">
+
+                <div class="card-header">
+                    <h3 style="font-weight: 10px; border: bold 2px black;">Create User</h3>
+                </div>
 
                 <div class="card-body" style="background-color: #F5F5DC">
 
@@ -74,15 +82,81 @@
                         </div>
 
                     <button type="submit" class="btn btn-primary"
-                        style="margin-left: 221px; margin-top: 50px; padding: 10px 20px; font-size: 18px;">CREATE</button>
+                        style="margin-left: 196px; margin-top: 50px; padding: 10px 20px; font-size: 18px;">CREATE</button>
                     </form>
                 </div>
             </div>
 
         </div>
-
     </div>
 
+
+
+
+    <!-- This will ask for the user to create a loan-->
+
+    <div class="row" style="margin-top: 100px;">
+    
+        <div class="col-md-6">
+            <div class="card"
+                style="border: solid 2px black; padding: 0 10px 10px 10px; margin-top: 10px;  background-color: #F5F5DC";>
+                <div class="card-header">
+                    <h3 style="font-weight: bold;">Make Loan</h3>
+                </div>
+                <div class="card-body" style="background-color: #F5F5DC;">
+                    <form>
+                        <div class="form-group">
+                            <label for="book_id" style="font-weight: bold; color: #333333;">Book ID</label>
+                            <input type="text" class="form-control" id="book_id" name="book_id"
+                                placeholder="Check Book ID in Available Books">
+                        </div>
+                        <div class="form-group">
+                            <label for="user_person_num" style="font-weight: bold; color: #333333;">Person Number</label>
+                            <input type="text" class="form-control" id="user_person_num" name="user_person_num"
+                                placeholder="Person Number">
+                        </div>
+    
+                        <button type="submit" class="btn btn-success btn-block"
+                            style="padding: 10px 20px; font-size: 18px; margin-top: 25px; margin-left: 196px;">LOAN</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-md-6">
+            <div class="card"
+                style="border: solid 2px black; padding: 0 10px 10px 10px; margin-top: 10px; background-color:#F5F5DC;">
+                <div class="card-header">
+                    <h3 style="font-weight: bold;">User Info</h3>
+                </div>
+    
+                <div class="card-body" style="background-color: #F5F5DC;">
+                    <form>
+                        <div class="form-group">
+                            <label for="user_info_person_num" style="font-weight: bold; color: #333333;">Person
+                                Number</label>
+                            <input type="text" class="form-control" id="user_info_person_num" name="user_info_person_num"
+                                placeholder="Person Number">
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block"
+                            style="padding: 10px 20px; font-size: 18px; margin-top: 86px; margin-left: 196px;">GET INFO</button>
+                    </form>
+    
+                </div>
+    
+            </div>
+    
+        </div>
+    
+    </div>
+
+ 
+
+
+   
+     
+
+ 
 
 </div>
 
