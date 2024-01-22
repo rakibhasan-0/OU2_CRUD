@@ -24,7 +24,7 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
          <div class="navbar-nav">
             <a class="nav-item nav-link active" href="#">Home</span></a>
-            <a class="nav-item nav-link" href="#">BookList</a>
+            <a class="nav-item nav-link" href="#">Book List</a>
             <a class="nav-item nav-link" href="#">User List</a>
             <a class="nav-item nav-link" href="#">Available Books</a>
          </div>
@@ -32,11 +32,13 @@
    </nav>
 
 
-   {% block input_content %}
-   {% endblock %}
+   {% block input_content %} {% endblock %}
 
-   {% block user_update_content%}
-   {% endblock %}
+   {% block user_update_content%} {% endblock %}
+
+   {% block book_update_content %} {% endblock %}
+
+   {% block user_info_content %} {% endblock %}
 
    <footer class="footer text-white text-center p-3" style="font-size: 22px; font-weight: bold;">
       <div class="container">

@@ -1,4 +1,4 @@
-class LibraryUser:
+class Library_User:
     def __init__(self, name, email, phone_number, address, ssn, fine_amount):
         self.name = name
         self.email = email

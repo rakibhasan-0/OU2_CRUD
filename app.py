@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, url_for
-from Library_user import LibraryUser
+from Library_user import Library_User
+from Library_book import Library_Book
 import psycopg2
 import os
 
@@ -98,10 +99,9 @@ def create_loan_table(cursor, connection):
 
 @app.route("/")
 def index():
-    user = LibraryUser("John Doe", "johndoe@example.com", 9710232, "123 Main St", 123414, 0)
-    print(user)  # This should print the user's details in the console
-    return render_template("user_update.html", library_user=user)
-
+    user = Library_User("John Doe", "kS9f9@example.com", "1234567890", "123 Main Street", 123456789, 0)
+    book_id = 3213
+    return render_template('input.html')
 
 
 if __name__ == "__main__":
