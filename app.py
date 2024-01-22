@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, url_for
+from Library_user import LibraryUser
 import psycopg2
 import os
 
@@ -55,7 +56,7 @@ def create_user_table(cursor, connection):
         );
     """
     #some users cols have deleted.
-    
+
     cursor.execute(user_table)
     connection.commit()
 
@@ -97,9 +98,9 @@ def create_loan_table(cursor, connection):
 
 @app.route("/")
 def index():
-    return render_template("input.html")
-
-
+    user = LibraryUser("John Doe", "johndoe@example.com", 9710232, "123 Main St", 123414, 0)
+    print(user)  # This should print the user's details in the console
+    return render_template("user_update.html", library_user=user)
 
 
 
