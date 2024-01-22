@@ -50,12 +50,12 @@ def create_user_table(cursor, connection):
             user_name VARCHAR(255) NOT NULL,
             user_email VARCHAR(255) NOT NULL,
             user_phone_number VARCHAR(255),
-            user_address VARCHAR(255),
-            user_postal_code VARCHAR(255),
-            user_street_name VARCHAR(255),
+            user_address VARCHAR(255), 
             total_fines INT DEFAULT 0 
         );
     """
+    #some users cols have deleted.
+    
     cursor.execute(user_table)
     connection.commit()
 
@@ -97,7 +97,7 @@ def create_loan_table(cursor, connection):
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("input.html")
 
 
 

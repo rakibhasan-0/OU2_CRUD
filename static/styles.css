@@ -1,0 +1,16 @@
+
+.custom-navbar {
+  background-color: #B08D57;
+  color: #FFF8DC;
+
+}
+
+.navbar-nav .nav-link {
+  color: #FFF8DC;
+}
+
+.nav-item {
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Times New Roman', Times, serif;
+}
