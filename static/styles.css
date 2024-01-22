@@ -11,6 +11,10 @@
   color: #FFF8DC;
 }
 
+.nav-item.nav-link.active {
+  color: black !important;
+}
+
 .nav-item {
   font-size: 16px;
   font-weight: bold;
@@ -22,4 +26,10 @@
   padding: 0 10px 10px 10px;
   margin-top: 10px;
   background-color: rgba(245, 245, 220, 0.86);
+}
+
+.books-available-table-cell{
+  padding: 60px;
+  font-size: 16px;
+  color: #FFF8DC;
 }

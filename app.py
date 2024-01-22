@@ -71,7 +71,23 @@ def insert_book_info():
 
 
 
+@app.route('/available_books')
+def available_books():
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM Book WHERE book_available = true")
+    books_data = cursor.fetchall()   
+    cursor.close()
+    close_db_connection(connection)
+    book_objects = [Library_Book(title=book[1], author=book[3], genre=book[2], available=book[4], book_id=book[0]) for book in books_data]
 
+    return render_template('available_books.html', active_page='available_books', books=book_objects)
+
+    
+
+@app.route('/')
+def home():
+    return render_template('input.html', active_page='home')
 
 
 
