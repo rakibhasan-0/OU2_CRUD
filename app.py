@@ -1,6 +1,5 @@
 import datetime 
-from datetime import date
-from datetime import timedelta
+from datetime import date, timedelta
 import logging
 from flask import Flask, render_template, redirect, url_for,request
 from library_user import Library_User
@@ -40,6 +39,21 @@ def insert_user_info():
         close_db_connection(connection)
         return render_template('input.html')
 
+
+
+@app.route("/users_list")
+def users_list():
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT * FROM Library_User")
+        users = cursor.fetchall()
+        users_objects = [Library_User(name=user[1], email=user[2], phone_number=user[3], address=user[4], ssn=user[0], fine_amount=user[5]) for user in users]
+
+    finally:
+        close_db_connection(connection)
+        return render_template('users_list.html',active_page ='users_list', users=users_objects)
 
 
 @app.route("/insert_book_info", methods=["POST", "GET"])
@@ -198,10 +212,10 @@ def return_book():
                 cursor.execute("SELECT loan_date, return_date FROM Loan WHERE loan_id = %s", (loan_id,))
                 loan_record = cursor.fetchone()
 
-                if loan_record and loan_record[1] is None:  # Check if return_date is None
+                if loan_record and loan_record[1] is None: 
                     process_loan_id = loan_id
                     loan_to_process = loan_record
-                    break  # Stop the loop if you find an unreturned loan
+                    break 
             
             
             if loan_to_process:
@@ -220,8 +234,9 @@ def return_book():
                     print(loan_id)
 
                     cursor.execute("UPDATE Loan SET return_date = %s WHERE loan_id = %s", (return_date, loan_id))
-                    cursor.execute("Insert into Fine(loan_id, fine_amount) values(%s, %s)", (loan_id, fine_amount))                  
-                cursor.execute("UPDATE Book SET book_available = false WHERE book_id = %s", (book_id,))
+                    cursor.execute("Insert into Fine(loan_id, fine_amount) values(%s, %s)", (loan_id, fine_amount))   
+
+                cursor.execute("UPDATE Book SET book_available = true WHERE book_id = %s", (book_id,))
                 conn.commit()
             else:
                 raise ValueError("Book not loaned")       
@@ -234,6 +249,63 @@ def return_book():
             return redirect(url_for('home'))
 
 
+
+
+
+@app.route('/delete_user', methods=["POST", "GET"])
+def delete_user():
+    if request.method == "POST":
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            user_ssn = request.form.get("user_delete")
+
+            cursor.execute("SELECT loan_id FROM Loan WHERE usr_ssn = %s", (user_ssn,))
+            loan_ids = cursor.fetchall()
+
+            for loan_id_tuple in loan_ids:
+                loan_id = loan_id_tuple[0]
+                cursor.execute("DELETE FROM Fine WHERE loan_id = %s", (loan_id,))
+                cursor.execute("DELETE FROM Loan WHERE loan_id = %s", (loan_id,))
+
+            cursor.execute("DELETE FROM library_user WHERE usr_ssn = %s", (user_ssn,))
+
+            conn.commit()
+
+        finally:
+            close_db_connection(conn)
+            return redirect(url_for('home'))
+        
+
+
+@app.route('/delete_book', methods=["POST", "GET"])
+def delete_book():
+    print("hello")
+    if request.method == "POST":
+        try:
+            print("hello")
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            book_id = request.form.get("book_delete")
+
+            #if book is available in the library then we will delete it
+        
+            cursor.execute("SELECT book_available FROM Book WHERE book_id = %s", (book_id,))
+            book_record = cursor.fetchone()
+            if book_record:
+                print("bokk deletion")
+                cursor.execute("DELETE FROM Book WHERE book_id = %s", (book_id,))
+            else:
+                raise ValueError("Book is not available or does not exist")
+
+            conn.commit()
+
+        except Exception as e:
+            logging.error("An error occurred: %s", e)
+
+        finally:
+            close_db_connection(conn)
+            return redirect(url_for('home'))
 
 
 @app.route('/')

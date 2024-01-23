@@ -147,7 +147,8 @@
             </div>
     
         </div>
-    
+
+        
     </div>
 
  
@@ -225,7 +226,7 @@
                     <h3 style="font-weight: bold;">Delete User</h3>
                 </div>
                 <div class = "card-body">
-                    <form>
+                    <form action="/delete_user" method="POST">
                         <div class="form-group">
                             <label for="user_delete" style="font-weight: bold; color: #333333;">Person Number </label>
                             <input type="text" class="form-control" id="user_delete" name="user_delete" placeholder="Person Number">
@@ -244,7 +245,7 @@
                     <h3 style="font-weight: bold;">Delete Book</h3>
                 </div>
                 <div class = "card-body"">
-                    <form>
+                    <form action="/delete_book" method="POST">
                         <div class="form-group">
                             <label for="book_delete" style="font-weight: bold; color: #333333;">Book ID </label>
                             <input type="text" class="form-control" id="book_delete" name="book_delete" placeholder="Book ID">
