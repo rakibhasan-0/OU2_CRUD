@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block book_update_content %}
+
 <div class="container">
   <div class="row" style="margin-bottom: 60px; margin-left: 100px; margin-right: 100px;">
     <div class="col-md-12">
@@ -8,8 +9,10 @@
         <div class="card-header">
           <h3 style="font-weight: bold;">Update Book Info</h3>
         </div>
+
         <div class="card-body">
-          <form method="POST">
+
+          <form action ="/book_info/update_book_info" method="POST">
             <!-- Name Field -->
             <div class="form-group">
               <label for="book_name" style="font-weight: bold; color: #333333;">Name</label>

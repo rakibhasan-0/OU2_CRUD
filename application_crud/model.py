@@ -1,3 +1,4 @@
+from app import app
 import datetime 
 from datetime import date, timedelta
 import logging
@@ -7,11 +8,8 @@ from book import Library_Book
 from db_connection import create_tables, get_db_connection, close_db_connection
 import os
 
-# The library User has fine cols thus update ER diagram.
-# The fine cols has fine amount col
 
-app = Flask(__name__)
-
+# it used for create user info
 @app.route("/insert_user_info", methods=["POST", "GET"])
 def insert_user_info():
     try:
@@ -38,24 +36,12 @@ def insert_user_info():
     finally:
         close_db_connection(connection)
         return render_template('input.html')
+    
 
 
 
-@app.route("/users_list")
-def users_list():
-    try:
-        connection = get_db_connection()
-        cursor = connection.cursor()
 
-        cursor.execute("SELECT * FROM Library_User")
-        users = cursor.fetchall()
-        users_objects = [Library_User(name=user[1], email=user[2], phone_number=user[3], address=user[4], ssn=user[0], fine_amount=user[5]) for user in users]
-
-    finally:
-        close_db_connection(connection)
-        return render_template('users_list.html',active_page ='users_list', users=users_objects)
-
-
+#model, it used for creating book info
 @app.route("/insert_book_info", methods=["POST", "GET"])
 def insert_book_info():
     try:
@@ -78,12 +64,13 @@ def insert_book_info():
 
     finally:
         close_db_connection(connection)
-        return render_template('input.html')
+        return render_template('input.html')    
+    
 
 
 
 
-
+#model, it used for creating loan info
 # trigger will be added here in order to update the book's availability.
 @app.route('/make_loan', methods=["POST", "GET"])
 def make_loan():
@@ -128,61 +115,7 @@ def make_loan():
 
 
 
-@app.route('/available_books', methods = ["POST", "GET"])
-def available_books():
-    connection = get_db_connection()
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM Book WHERE book_available = true")
-    books_data = cursor.fetchall()   
-    cursor.close()
-    close_db_connection(connection)
-    book_objects = [Library_Book(title=book[1], author=book[3], genre=book[2], available=book[4], book_id=book[0]) for book in books_data]
-
-    return render_template('available_books.html', active_page='available_books', books=book_objects)
-
-
-
-
-@app.route('/update_book_info', methods=["POST", "GET"])
-def update_book_info():
-    library_book = None
-
-    if request.method == "POST":
-        connection = get_db_connection()
-        cursor = connection.cursor()
-        book_id = request.form.get("book_update_id")
-        print("The book id is: " + book_id)
-
-        if book_id:
-            cursor.execute("SELECT * FROM Book WHERE book_id = %s", (book_id,))
-            book_data = cursor.fetchone()
-            close_db_connection(connection)
-
-            if book_data:
-                library_book = Library_Book(title=book_data[1], author=book_data[2], genre=book_data[3], available=book_data[4], book_id=book_data[0])
-            else:
-                print("No book found with ID:", book_id)
-                # Handle the case where no book is found
-
-    return render_template('book_update.html', library_book=library_book)
-
-
-
-@app.route('/get_user_info', methods = ["POST", "GET"])
-def get_user_info():
-    connection = get_db_connection()
-    cursor = connection.cursor()
-    user_ssn = request.form.get("user_info_person_num")
-    cursor.execute("SELECT * FROM Library_User WHERE usr_ssn = %s", (user_ssn,))
-    users = cursor.fetchone()
-    users = Library_User(name=users[1], email=users[2], phone_number=users[3], address=users[4], ssn=users[0], fine_amount=users[5])
-    return render_template('user_update.html', library_user=users)
-
-
-
-
-
-
+#model
 #it will calc the returned date and update the fine amount and book availability
 @app.route('/return_loan', methods=["POST", "GET"])
 def return_book():
@@ -220,19 +153,10 @@ def return_book():
             
             if loan_to_process:
                 delta = return_date - loan_to_process[0]
-                print(return_date)
-                print(type(return_date))
-                print(type(loan_to_process))
-                print(loan_to_process)
-                print(delta)
                 if delta.days > 10:
                     fine_amount = 2 * delta.days
-                    print(fine_amount)
                     cursor.execute("UPDATE Library_User SET total_fines = total_fines + %s WHERE usr_ssn = %s", (fine_amount, user_ssn))
                     loan_id = process_loan_id
-
-                    print(loan_id)
-
                     cursor.execute("UPDATE Loan SET return_date = %s WHERE loan_id = %s", (return_date, loan_id))
                     cursor.execute("Insert into Fine(loan_id, fine_amount) values(%s, %s)", (loan_id, fine_amount))   
 
@@ -251,7 +175,7 @@ def return_book():
 
 
 
-
+#model
 @app.route('/delete_user', methods=["POST", "GET"])
 def delete_user():
     if request.method == "POST":
@@ -278,12 +202,12 @@ def delete_user():
         
 
 
+
+#model
 @app.route('/delete_book', methods=["POST", "GET"])
 def delete_book():
-    print("hello")
     if request.method == "POST":
         try:
-            print("hello")
             conn = get_db_connection()
             cursor = conn.cursor()
             book_id = request.form.get("book_delete")
@@ -293,7 +217,6 @@ def delete_book():
             cursor.execute("SELECT book_available FROM Book WHERE book_id = %s", (book_id,))
             book_record = cursor.fetchone()
             if book_record:
-                print("bokk deletion")
                 cursor.execute("DELETE FROM Book WHERE book_id = %s", (book_id,))
             else:
                 raise ValueError("Book is not available or does not exist")
@@ -308,22 +231,58 @@ def delete_book():
             return redirect(url_for('home'))
 
 
-@app.route('/')
-def home():
-    return render_template('input.html', active_page='home')
 
 
 
-if __name__ == "__main__":
-    create_tables()
-    app.run(debug=True)
+# you need to fix it to get the user info
+#model
+@app.route('/get_user_info/update_user_info', methods=["POST", "GET"])
+
+def update_user_info():
+    if request.method == "POST":
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            user_ssn = request.form.get("user_ssn")
+            name = request.form.get("user_name")
+            email = request.form.get("user_email")
+            phone_number = request.form.get("user_phone")
+            address = request.form.get("user_address")
+
+            print(user_ssn, name, email, phone_number, address)
+
+            cursor.execute("UPDATE Library_User SET user_name = %s, user_email = %s, user_phone_number = %s, user_address = %s WHERE usr_ssn = %s", (name, email, phone_number, address, user_ssn))
+            conn.commit()
+
+
+        finally:
+            close_db_connection(conn)
+            return redirect(url_for('home'))
 
 
 
 
+#model
+@app.route('/book_info/update_book_info', methods=["POST", "GET"])
+def update_book_info():
+    if request.method == "POST":
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            book_id = request.form.get("book_id")
+            name = request.form.get("book_name")
+            genre = request.form.get("book_genre")
+            author = request.form.get("book_author")
+
+            print(book_id, name, genre, author)
+
+            cursor.execute("UPDATE Book SET book_name = %s, book_genre = %s, book_author = %s WHERE book_id = %s", (name, genre, author, book_id))
+            conn.commit()
 
 
-
+        finally:
+            close_db_connection(conn)
+            return redirect(url_for('home'))
 
 
 

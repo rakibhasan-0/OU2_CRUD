@@ -123,52 +123,20 @@
         </div>
 
 
-        <!-- User info section-->
-        <div class="col-md-6">
-            <div class="card"style = "padding-bottom: -10px;">
-                <div class="card-header">
-                    <h3 style="font-weight: bold;">User Info</h3>
-                </div>
-    
-                <div class="card-body">
-                    <form action="/get_user_info" method="POST">
-                        <div class="form-group">
-                            <label for="user_info_person_num" style="font-weight: bold; color: #333333; margin-top: 63px;">Person
-                                Number</label>
-                            <input type="text" class="form-control" id="user_info_person_num" name="user_info_person_num"
-                                placeholder="Person Number">
-                        </div>
-                        <button type="submit" class="btn btn-success btn-block"
-                            style="padding: 10px 20px; font-size: 18px; margin-top: 86px; margin-left: 210px;">GET INFO</button>
-                    </form>
-    
-                </div>
-    
-            </div>
-    
-        </div>
 
-        
-    </div>
 
- 
-
-    <!-- Update the User Info and return the loan-->
-    <div class = "row" style="margin-top: 100px;">
 
         <div class="col-md-6"">
-            <div class="card">
+            <div class=" card">
                 <div class="card-header">
                     <h3 style="font-weight: bold;">Return Loan</h3>
                 </div>
+
                 <div class="card-body">
-
-
                     <form action="/return_loan" method="POST">
                         <div class="form-group">
                             <label for="loaned_book_id" style="font-weight: bold; color: #333333;">Book ID </label>
-                            <input type="text" class="form-control" id="loaned_book_id" name="loaned_book_id"
-                                placeholder="Book ID">
+                            <input type="text" class="form-control" id="loaned_book_id" name="loaned_book_id" placeholder="Book ID">
                         </div>
                         <div>
                             <label for="loaned_person_num" style="font-weight: bold; color: #333333;">Person Number </label>
@@ -181,13 +149,50 @@
                                 placeholder="Return Date">
                         </div>
                         <button type="submit" class="btn btn-warning btn-block"
-                            style="padding: 10px 20px; font-size: 18px; margin-top: 16px; margin-left: 184px;">UPDATE</button>
+                            style="padding: 10px 20px; font-size: 18px; margin-top: 26px; margin-left: 184px;">RETURN</button>
                     </form>
-
-
-
+            
                 </div>
+                
+            </div>    
+
+        </div>
+
+
+       
+
+    </div>
+
+ 
+
+    <!-- Update the User Info and return the loan-->
+    <div class = "row" style="margin-top: 100px;">
+    
+    
+        <!-- User info section-->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 style="font-weight: bold;">User Info</h3>
+                </div>
+        
+                <div class="card-body">
+                    <form action="/get_user_info" method="POST">
+                        <div class="form-group">
+                            <label for="user_info_person_num"
+                                style="font-weight: bold; color: #333333;">Person
+                                Number</label>
+                            <input type="text" class="form-control" id="user_info_person_num" name="user_info_person_num"
+                                placeholder="Person Number">
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block"
+                            style="padding: 10px 20px; font-size: 18px; margin-top: 149px; margin-left: 210px;">GET INFO</button>
+                    </form>
+        
+                </div>
+        
             </div>
+        
         </div>
 
 
@@ -200,23 +205,24 @@
                 </div>
                 <div class = "card-body">
 
-                    <form action="/update_book_info" method="POST">
+                    <form action="/book_info" method="POST">
                         <div class="form-group">
                             <label for="book_update_id" style="font-weight: bold; color: #333333;">Book ID</label>
                             <input type="number" class="form-control" id="book_update_id" name="book_update_id" placeholder="Book ID"
                                 required>
                         </div>
                         <button type="submit" class="btn btn-warning btn-block"
-                            style="padding: 10px 20px; font-size: 18px; margin-left: 210px; margin-bottom: 6px; margin-top: 130px;">UPDATE</button>
+                            style="padding: 10px 20px; font-size: 18px; margin-left: 210px; margin-bottom: 16px; margin-top: 130px;">UPDATE</button>
                     </form>
                 </div>
             </div>
         </div>
 
 
+    </div>
 
    
-     
+        
     <!-- delete books and users-->
     <div class = "row" style="margin-top: 100px; margin-bottom: 200px;">
 
