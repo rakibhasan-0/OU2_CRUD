@@ -71,7 +71,48 @@ def insert_book_info():
 
 
 
-@app.route('/available_books')
+# trigger will be added here in order to update the book's availability.
+@app.route('/make_loan', methods=["POST", "GET"])
+def make_loan():
+    if request.method == "POST":
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            user_ssn = request.form.get("user_person_num")
+            book_id = request.form.get("make_loan_book_id")
+            loan_date = request.form.get("loan_date")
+
+            # Check if the book is available
+            cursor.execute("SELECT book_available FROM Book WHERE book_id = %s", (book_id,))
+            book_record = cursor.fetchone()
+            if book_record is None or not book_record[0]:
+                raise ValueError("Book is not available or does not exist")
+
+            # Check if the user exists
+            cursor.execute("SELECT usr_ssn FROM Library_User WHERE usr_ssn = %s", (user_ssn,))
+            if cursor.fetchone() is None:
+                raise ValueError("User does not exist")
+
+            # Insert the new loan
+            insert_query = "INSERT INTO Loan (usr_ssn, book_id, loan_date) VALUES (%s, %s, %s)"
+            cursor.execute(insert_query, (user_ssn, book_id, loan_date))
+            conn.commit()
+
+        except ValueError as e:
+            logging.error("Validation error: %s", e)
+
+        except Exception as e:
+            logging.error("An error occurred: %s", e)
+
+        finally:
+            close_db_connection(conn)
+
+    return render_template('input.html')
+
+
+
+
+@app.route('/available_books', methods = ["POST", "GET"])
 def available_books():
     connection = get_db_connection()
     cursor = connection.cursor()
@@ -83,7 +124,19 @@ def available_books():
 
     return render_template('available_books.html', active_page='available_books', books=book_objects)
 
-    
+
+
+
+@app.route('/get_user_info', methods = ["POST", "GET"])
+def get_user_info():
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    user_ssn = request.form.get("user_info_person_num")
+    cursor.execute("SELECT * FROM Library_User WHERE usr_ssn = %s", (user_ssn,))
+    users = cursor.fetchone()
+    users = Library_User(name=users[1], email=users[2], phone_number=users[3], address=users[4], ssn=users[0], fine_amount=users[5])
+    return render_template('user_update.html', library_user=users)
+
 
 @app.route('/')
 def home():
