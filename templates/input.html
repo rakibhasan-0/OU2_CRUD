@@ -113,7 +113,7 @@
 
                        <div class="form-group">
                             <label for="loan_date" style="font-weight: bold; color: #333333;">Loan Date</label>
-                            <input type="date" class="form-control" id="loan_date" name="loan_date" readonly>
+                            <input type="date" class="form-control" id="loan_date" name="loan_date">
                         </div>
                         <button type="submit" class="btn btn-success btn-block"
                             style="padding: 10px 20px; font-size: 18px; margin-top: 25px; margin-left: 196px;">LOAN</button>
@@ -160,8 +160,10 @@
                 <div class="card-header">
                     <h3 style="font-weight: bold;">Return Loan</h3>
                 </div>
-                <div class="card-body" style="padding-;">
-                    <form>
+                <div class="card-body">
+
+
+                    <form action="/return_loan" method="POST">
                         <div class="form-group">
                             <label for="loaned_book_id" style="font-weight: bold; color: #333333;">Book ID </label>
                             <input type="text" class="form-control" id="loaned_book_id" name="loaned_book_id"
@@ -180,6 +182,9 @@
                         <button type="submit" class="btn btn-warning btn-block"
                             style="padding: 10px 20px; font-size: 18px; margin-top: 16px; margin-left: 184px;">UPDATE</button>
                     </form>
+
+
+
                 </div>
             </div>
         </div>
@@ -193,10 +198,12 @@
                     <h3 style="font-weight: bold;">Book Info</h3>
                 </div>
                 <div class = "card-body">
-                    <form>
+
+                    <form action="/update_book_info" method="POST">
                         <div class="form-group">
-                            <label for="book_update" style="font-weight: bold; color: #333333;">Book ID </label>
-                            <input type="text" class="form-control" id="book_update" name="book_update" placeholder="Book ID">
+                            <label for="book_update_id" style="font-weight: bold; color: #333333;">Book ID</label>
+                            <input type="number" class="form-control" id="book_update_id" name="book_update_id" placeholder="Book ID"
+                                required>
                         </div>
                         <button type="submit" class="btn btn-warning btn-block"
                             style="padding: 10px 20px; font-size: 18px; margin-left: 210px; margin-bottom: 6px; margin-top: 130px;">UPDATE</button>
@@ -252,12 +259,4 @@
     </div>
 </div>
 
-
-<script>
-    window.onload = function () {
-        var today = new Date();
-        var date = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
-        document.getElementById('loan_date').value = date;
-    };
-</script>
 {% endblock %}

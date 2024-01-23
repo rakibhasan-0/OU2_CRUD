@@ -1,3 +1,6 @@
+import datetime 
+from datetime import date
+from datetime import timedelta
 import logging
 from flask import Flask, render_template, redirect, url_for,request
 from library_user import Library_User
@@ -9,10 +12,6 @@ import os
 # The fine cols has fine amount col
 
 app = Flask(__name__)
-
-@app.route("/")
-def index():
-    return render_template('input.html')
 
 @app.route("/insert_user_info", methods=["POST", "GET"])
 def insert_user_info():
@@ -82,6 +81,9 @@ def make_loan():
             book_id = request.form.get("make_loan_book_id")
             loan_date = request.form.get("loan_date")
 
+            date_format = "%Y-%m-%d"
+            loan_date = datetime.datetime.strptime(loan_date, date_format)
+
             # Check if the book is available
             cursor.execute("SELECT book_available FROM Book WHERE book_id = %s", (book_id,))
             book_record = cursor.fetchone()
@@ -127,6 +129,31 @@ def available_books():
 
 
 
+@app.route('/update_book_info', methods=["POST", "GET"])
+def update_book_info():
+    library_book = None
+
+    if request.method == "POST":
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        book_id = request.form.get("book_update_id")
+        print("The book id is: " + book_id)
+
+        if book_id:
+            cursor.execute("SELECT * FROM Book WHERE book_id = %s", (book_id,))
+            book_data = cursor.fetchone()
+            close_db_connection(connection)
+
+            if book_data:
+                library_book = Library_Book(title=book_data[1], author=book_data[2], genre=book_data[3], available=book_data[4], book_id=book_data[0])
+            else:
+                print("No book found with ID:", book_id)
+                # Handle the case where no book is found
+
+    return render_template('book_update.html', library_book=library_book)
+
+
+
 @app.route('/get_user_info', methods = ["POST", "GET"])
 def get_user_info():
     connection = get_db_connection()
@@ -136,6 +163,77 @@ def get_user_info():
     users = cursor.fetchone()
     users = Library_User(name=users[1], email=users[2], phone_number=users[3], address=users[4], ssn=users[0], fine_amount=users[5])
     return render_template('user_update.html', library_user=users)
+
+
+
+
+
+
+#it will calc the returned date and update the fine amount and book availability
+@app.route('/return_loan', methods=["POST", "GET"])
+def return_book():
+    if request.method == "POST":
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            user_ssn = request.form.get("loaned_person_num")
+            book_id = request.form.get("loaned_book_id")
+            return_date = request.form.get("loaned_return_date")
+
+            date_format = "%Y-%m-%d"  
+            parsed_datetime = datetime.datetime.strptime(return_date, date_format)
+            return_date = parsed_datetime.date()
+
+
+            # a user can make several make to the same loan
+            # thus, we may grab all of the loans, then check the return date of each loan, if any of the loans return date is null then we will process that loan.
+            cursor.execute("SELECT loan_id FROM Loan WHERE book_id = %s AND usr_ssn = %s", (book_id, user_ssn))
+            loan_ids = cursor.fetchall()
+
+            process_loan_id = None
+            loan_to_process = None
+
+            for loan_id_tuple in loan_ids:
+                loan_id = loan_id_tuple[0]
+                cursor.execute("SELECT loan_date, return_date FROM Loan WHERE loan_id = %s", (loan_id,))
+                loan_record = cursor.fetchone()
+
+                if loan_record and loan_record[1] is None:  # Check if return_date is None
+                    process_loan_id = loan_id
+                    loan_to_process = loan_record
+                    break  # Stop the loop if you find an unreturned loan
+            
+            
+            if loan_to_process:
+                delta = return_date - loan_to_process[0]
+                print(return_date)
+                print(type(return_date))
+                print(type(loan_to_process))
+                print(loan_to_process)
+                print(delta)
+                if delta.days > 10:
+                    fine_amount = 2 * delta.days
+                    print(fine_amount)
+                    cursor.execute("UPDATE Library_User SET total_fines = total_fines + %s WHERE usr_ssn = %s", (fine_amount, user_ssn))
+                    loan_id = process_loan_id
+
+                    print(loan_id)
+
+                    cursor.execute("UPDATE Loan SET return_date = %s WHERE loan_id = %s", (return_date, loan_id))
+                    cursor.execute("Insert into Fine(loan_id, fine_amount) values(%s, %s)", (loan_id, fine_amount))                  
+                cursor.execute("UPDATE Book SET book_available = false WHERE book_id = %s", (book_id,))
+                conn.commit()
+            else:
+                raise ValueError("Book not loaned")       
+
+        except Exception as e:
+            logging.error("An error occurred: %s", e)
+
+        finally:
+            close_db_connection(conn)
+            return redirect(url_for('home'))
+
+
 
 
 @app.route('/')
