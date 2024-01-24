@@ -152,16 +152,21 @@ def return_book():
             
             
             if loan_to_process:
+
                 delta = return_date - loan_to_process[0]
+                loan_id = process_loan_id
+
                 if delta.days > 10:
                     fine_amount = 2 * delta.days
                     cursor.execute("UPDATE Library_User SET total_fines = total_fines + %s WHERE usr_ssn = %s", (fine_amount, user_ssn))
-                    loan_id = process_loan_id
-                    cursor.execute("UPDATE Loan SET return_date = %s WHERE loan_id = %s", (return_date, loan_id))
-                    cursor.execute("Insert into Fine(loan_id, fine_amount) values(%s, %s)", (loan_id, fine_amount))   
+                    cursor.execute("Insert into Fine(loan_id, fine_amount) values(%s, %s)", (loan_id, fine_amount)) 
 
+                # whether the user deserved the fine or not, once the book is returned, we will update the book availability 
+                # and the update the return date of the loan                 
+                cursor.execute("UPDATE Loan SET return_date = %s WHERE loan_id = %s", (return_date, loan_id))
                 cursor.execute("UPDATE Book SET book_available = true WHERE book_id = %s", (book_id,))
                 conn.commit()
+
             else:
                 raise ValueError("Book not loaned")       
 
@@ -212,8 +217,7 @@ def delete_book():
             cursor = conn.cursor()
             book_id = request.form.get("book_delete")
 
-            #if book is available in the library then we will delete it
-        
+            #if book is available in the library then we will delete it        
             cursor.execute("SELECT book_available FROM Book WHERE book_id = %s", (book_id,))
             book_record = cursor.fetchone()
             if book_record:
@@ -283,6 +287,10 @@ def update_book_info():
         finally:
             close_db_connection(conn)
             return redirect(url_for('home'))
+
+
+
+
 
 
 

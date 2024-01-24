@@ -1,4 +1,3 @@
-
 import psycopg2
 # Database connection's configuration
 db_config = {
@@ -25,6 +24,9 @@ def create_tables():
     create_user_table(cursor, connection)
     create_loan_table(cursor, connection)
     create_fine_table(cursor, connection)
+    create_book_unavailable_trigger_function(cursor, connection)
+    create_book_unavailable_trigger(cursor, connection)
+
     cursor.close()
     close_db_connection(connection)
 
@@ -91,4 +93,48 @@ def create_loan_table(cursor, connection):
     """
     cursor.execute(loan_table)
     connection.commit()
+
+
+def create_book_unavailable_trigger_function(cursor, connection):
+    trigger_function = """
+    CREATE OR REPLACE FUNCTION set_book_unavailable()
+    RETURNS TRIGGER AS $$
+    BEGIN
+        UPDATE Book
+        SET book_available = FALSE
+        WHERE book_id = NEW.book_id;
+        RETURN NEW;
+    END;
+    $$ LANGUAGE plpgsql;
+    """
+
+    cursor.execute(trigger_function)
+    connection.commit()
+
+
+
+def create_book_unavailable_trigger(cursor, connection):
+  
+    drop_trigger = """
+    DROP TRIGGER IF EXISTS book_unavailable_trigger ON Loan;
+    """
+    cursor.execute(drop_trigger)
+
+    create_trigger = """
+    CREATE TRIGGER book_unavailable_trigger
+    AFTER INSERT ON Loan
+    FOR EACH ROW
+    EXECUTE FUNCTION set_book_unavailable();
+    """
+    cursor.execute(create_trigger)
+    connection.commit()
+
+
+
+
+
+
+
+
+
 

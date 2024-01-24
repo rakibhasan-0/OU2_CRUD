@@ -15,26 +15,36 @@
 </head>
 
 <body>
-   <!--The navbar-->
-   <nav class="navbar navbar-expand-lg custom-navbar" style="margin-bottom: 25px; padding-bottom: 15px;">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-         aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-         <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-         <div class="navbar-nav">
-         <a class="nav-item nav-link {{ 'active' if active_page == 'home' or active_page is none else '' }}"
-            href="{{ url_for('home') }}" id ="navHome" >Home</a>
 
-            <a class="nav-item nav-link {{ 'active' if active_page == 'users_list' else '' }}"  
-            href="{{ url_for('users_list')}}" id ="navUserList">User List</a>
+   <title>The Library</title>
 
-            <a class="nav-item nav-link {{ 'active' if active_page == 'available_books' else '' }}"
-               href="{{ url_for('available_books')}}" id ="navAvailableBooks">Available Books</a>
+   <div class="container-fluid" style="padding-right: 0; padding-left: 0;">
+      <!--The navbar-->
+      <nav class="navbar navbar-expand-lg custom-navbar" style="margin-bottom: 25px; padding-bottom: 15px;">
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+         </button>
+         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+               <a class="nav-item nav-link {{ 'active' if active_page == 'home' or active_page is none else '' }}"
+                  href="{{ url_for('home') }}" id="navHome">Home</a>
+      
+               <a class="nav-item nav-link {{ 'active' if active_page == 'users_list' else '' }}"
+                  href="{{ url_for('users_list')}}" id="navUserList">User List</a>
+      
+               <a class="nav-item nav-link {{ 'active' if active_page == 'available_books' else '' }}"
+                  href="{{ url_for('available_books')}}" id="navAvailableBooks">Available Books</a>
 
+               <a class ="nav-item nav-link {{ 'active' if active_page == 'input' else '' }}"
+                  href="#" id="navInput" style ="margin-left: 920px;">About</a>
+      
+            </div>
          </div>
-      </div>
-   </nav>
+      </nav>
+
+   </div>
+ 
 
    {% block user_lists_content %} {% endblock %}
 
