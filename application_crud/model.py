@@ -230,6 +230,7 @@ def delete_book():
             book_record = cursor.fetchone()
             
             if book_record:
+                print("Hello Its me")
                 cursor.execute("DELETE FROM Book WHERE book_id = %s", (book_id,))
             else:
                 raise ValueError("Book is not available or does not exist")

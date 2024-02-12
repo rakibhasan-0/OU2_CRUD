@@ -43,7 +43,7 @@ def users_list():
 def available_books():
     connection = get_db_connection()
     cursor = connection.cursor()
-    cursor.execute("SELECT * FROM Book WHERE book_available = true")
+    cursor.execute("SELECT * FROM Book WHERE book_available = true ORDER BY book_id")
     books_data = cursor.fetchall()   
     cursor.close()
     close_db_connection(connection)
