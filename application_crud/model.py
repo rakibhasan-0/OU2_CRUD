@@ -160,12 +160,16 @@ def return_book():
                     fine_amount = 2 * delta.days
                     cursor.execute("UPDATE Library_User SET total_fines = total_fines + %s WHERE usr_ssn = %s", (fine_amount, user_ssn))
                     cursor.execute("Insert into Fine(loan_id, fine_amount) values(%s, %s)", (loan_id, fine_amount)) 
+                    cursor.execute("UPDATE Loan SET return_date = %s WHERE loan_id = %s", (return_date, loan_id))
+                    cursor.execute("UPDATE Book SET book_available = true WHERE book_id = %s", (book_id,))
 
                 # whether the user deserved the fine or not, once the book is returned, we will update the book availability 
-                # and the update the return date of the loan                 
-                cursor.execute("UPDATE Loan SET return_date = %s WHERE loan_id = %s", (return_date, loan_id))
-                cursor.execute("UPDATE Book SET book_available = true WHERE book_id = %s", (book_id,))
-                conn.commit()
+                # and the update the return date of the loan
+                #delete the loan instead of update the loan
+                else:
+                    cursor.execute("DELETE FROM loan WHERE book_id = %s AND usr_ssn = %s", (book_id, user_ssn))
+                    cursor.execute("UPDATE Book SET book_available = true WHERE book_id = %s", (book_id,))   
+                    conn.commit()
 
             else:
                 raise ValueError("Book not loaned")       
@@ -209,6 +213,10 @@ def delete_user():
 
 
 #model
+# we have designed such a system where the user can only delete those books which does not has no fine belongings. 
+# If the book is related to the fine and then loan schema then the book can not be deleted from the system. Since 
+# the book_id and user_ssn applied for the loan can not be deleted from the system.
+                 
 @app.route('/delete_book', methods=["POST", "GET"])
 def delete_book():
     if request.method == "POST":
@@ -220,7 +228,9 @@ def delete_book():
             #if book is available in the library then we will delete it        
             cursor.execute("SELECT book_available FROM Book WHERE book_id = %s", (book_id,))
             book_record = cursor.fetchone()
+            
             if book_record:
+                print("Hello Its me")
                 cursor.execute("DELETE FROM Book WHERE book_id = %s", (book_id,))
             else:
                 raise ValueError("Book is not available or does not exist")
